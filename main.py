@@ -32,19 +32,32 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface([self.width, self.height])
         self.image.fill(Color_White)
         self.rect = self.image.get_rect()
-
+        self.travel_x = 0 
+        self.travel_y = 0 
+        # We create a move method
+    def Move_Payer(self, x, y):
+        self.travel_x += x
+        self.travel_y += y 
+        # we update all our movements
+    def Update_Player_Cordinates(self):
+        self.rect.x += self.travel_x
+        self.rect.y += self.travel_y
 
 # PLayerHAndler 
 Main_Player = Player()
 Main_Player.rect.x = 0
 Main_Player.rect.y = 0 
 player_list.add(Main_Player)
+Steps = 100
+
 
 while Run_Game:
     The_World.fill(Color_Green)
+    Main_Player.Update_Player_Cordinates()
     player_list.draw(The_World)
     pygame.display.flip()
     Clock.tick(FPS)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -58,24 +71,32 @@ while Run_Game:
 
             # Handle Movement
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                print("Left")
+                Main_Player.Move_Payer(-Steps, 0)
+
             elif event.key == pygame.K_RIGHT or event.key == ord('d'):
-                print("Right")
+                Main_Player.Move_Payer(Steps, 0)
+ 
             elif event.key == pygame.K_UP or event.key == ord('w'):
-                print("Up")
+                Main_Player.Move_Payer(0, -Steps)
+ 
             elif event.key == pygame.K_DOWN or event.key == ord('s'):
-                print("Down")
+                Main_Player.Move_Payer(0, Steps)
+ 
 
         if event.type == pygame.KEYUP:
             # Handle Movement 
             if event.key == pygame.K_LEFT or event.key == ord('a'):
-                print("Left Stop")
+                Main_Player.Move_Payer(Steps, 0 )
+ 
             elif event.key == pygame.K_RIGHT or event.key == ord('d'):
-                print("Right Stop")
+                Main_Player.Move_Payer(-Steps, 0) 
+     
             elif event.key == pygame.K_UP or event.key == ord('w'):
-                print("Up Stop")
+                Main_Player.Move_Payer(0, Steps)
+ 
             elif event.key == pygame.K_DOWN or event.key == ord('s'):
-                print("Down Stop")
+                Main_Player.Move_Payer(0, -Steps)
+ 
 
 
         
